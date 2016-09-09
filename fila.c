@@ -3,7 +3,7 @@
 #include "fila.h"
 
 
-link novoNo(int item, link next) {
+link novoNo(int item, link next, link prev) {
   link t = malloc(sizeof *t);
   if (t == NULL) {
     printf ("Erro no malloc \n");
@@ -11,6 +11,7 @@ link novoNo(int item, link next) {
   }
   t->item = item;
   t->next = next;
+  t->prev = prev;
   return t;
 }
 
