@@ -9,8 +9,8 @@ struct node {
 };
 
 typedef struct {
-  link maisAntigo;
-  link maisNovo;
+  link fim;
+  link inicio;
 } * FILA;
 
 link novoNo(int item, link next, link prev);
@@ -21,6 +21,6 @@ int remover(FILA f);
 int removerdir(FILA f);
 void imprimirFila(FILA f);
 void destroiFila(FILA f);
-int filaVazia(FILA f); 
+int filaVazia(FILA f);
 
 #endif 
