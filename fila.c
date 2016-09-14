@@ -17,26 +17,28 @@ link novoNo(int item, link next, link prev) {
 
 FILA novaFila() {
   FILA f = malloc(sizeof *f);
-  f->maisNovo = f->maisAntigo = NULL;
+  f->fim = f->inicio = NULL;
   return f;
 }
 
 void inseriresq(FILA f,int e) {
-  if(f->maisNovo == NULL) {
-    f->maisAntigo = f->maisNovo = novoNo(e, NULL);
+    link t;
+  if(f->inicio == NULL) {
+    f->inicio = f->fim  = novoNo(e, NULL, NULL);
   } else {
-    f->maisAntigo->prev = novoNo(e, NULL);
-    f->maisAntigo = f->maisAntigo->prev;
+    f->inicio->prev = t = novoNo(e, NULL, NULL);
+    t->next = f->inicio;
+    f->inicio = t;
   }
 }
 
 
 void inserir(FILA f, int e) {
-  if(f->maisAntigo == NULL) {
-    f->maisAntigo = f->maisNovo = novoNo(e, NULL);
+  if(f->fim == NULL) {
+    f->inicio = f->fim = novoNo(e, NULL,NULL);
   } else {
-    f->maisNovo->next = novoNo(e, NULL);
-    f->maisNovo = f->maisNovo->next;
+    f->fim->next = novoNo(e, NULL,f->fim);
+    f->fim = f->fim->next;
   }
 }
 
@@ -47,13 +49,13 @@ int removerdir(FILA f){
     printf ("Erro, a fila esta vazia\n");
     return 0;
   }
-  
-  x = f->maisNovo->item;
-  t = f->maisNovo;
-  f->maisNovo = f->maisNovo->prev;
- 
-  if(f->maisNovo == NULL)
-    f->maisAntigo = NULL;
+
+  x = f->inicio->item;
+  t = f->inicio;
+  f->inicio = f->inicio->prev;
+
+  if(f->inicio == NULL)
+    f->fim = NULL;
 
   free(t);
   return x;
@@ -67,23 +69,23 @@ int remover(FILA f){
     printf ("Erro, a fila esta vazia\n");
     return 0;
   }
-  
-  x = f->maisAntigo->item;
-  t = f->maisAntigo;
-  f->maisAntigo = f->maisAntigo->next;
- 
-  if(f->maisAntigo == NULL)
-    f->maisNovo = NULL;
+
+  x = f->fim->item;
+  t = f->fim;
+  f->fim = f->fim->next;
+
+  if(f->fim == NULL)
+    f->inicio = NULL;
 
   free(t);
   return x;
 }
 int filaVazia(FILA f) {
-  return ((f->maisNovo == NULL) || (f->maisAntigo == NULL));
+  return ((f->inicio == NULL) || (f->fim == NULL));
 }
 void imprimirFila(FILA f) {
   link t;
-  for(t = f->maisAntigo; t != NULL; t = t->next) 
+  for(t = f->inicio; t != NULL; t = t->next)
     printf ("%d ", t->item);
   printf ("\n");
 }
